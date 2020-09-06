@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yank0vy3rdna
+  Date: 20.08.2020
+  Time: 15:07
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Web Lab 3</title>
+
+    <style type="text/css">
+        body {
+            background: white }
+        section {
+            background: black;
+            color: white;
+            border-radius: 1em;
+            padding: 1em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%) }
+    </style>
+</h:head>
+
+<h:body style="text-align: center">
+    <div style = "border-width:2px; margin: 0 auto; border-color:green; border-style:solid;">
+        <ui:insert name = "header" >
+            <ui:include src = "header.xhtml" />
+        </ui:insert>
+    </div>
+    <br/>
+    <h:form style="border-width:2px; margin: 0 auto; padding: 1%; border-color:darkblue; border-style:solid; width: 30%">
+        <h3>Clock</h3>
+        <p:clock displayMode="analog" mode="server" autoSync="true" syncInterval="8000"/>
+        <p:clock displayMode="digital" pattern="dd.MM.yyyy" mode="server" autoSync="true" syncInterval="8000"/>
+    </h:form>
+    <h:form style="border-width:2px; margin: 0 auto; padding: 1%; border-color:darkblue; border-style:solid; width: 30%">
+        <p:button outcome="main" value="Start" icon="pi" style="text-align: center"/>
+    </h:form>
+</h:body>
+
+</html>
