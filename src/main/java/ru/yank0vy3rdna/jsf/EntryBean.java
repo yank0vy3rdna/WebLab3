@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EntryBean {
     UUID session_id = UUID.randomUUID();
 
-    private final EntryDao entryDao = new EntryDao();;
+    private final EntryDao entryDao = new EntryDao();
 
     private Entry newEntry;
 
@@ -34,7 +34,7 @@ public class EntryBean {
     public double getLastR() throws SQLException, NamingException {
         List<Entry> entryList = getEntries();
         double lastR;
-        if (entryList != null){
+        if (entryList.size() != 0){
             lastR = entryList.get(0).getR();
         }
         else {
@@ -45,7 +45,7 @@ public class EntryBean {
     }
 
     public List<Entry> getEntries() throws SQLException, NamingException {
-        return entryDao.getEntries();
+        return entryDao.getEntries(this.session_id.toString());
     }
 
     public void addEntry() throws SQLException, NamingException {

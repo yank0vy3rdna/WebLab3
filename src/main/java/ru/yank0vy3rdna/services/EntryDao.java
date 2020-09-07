@@ -1,4 +1,5 @@
 package ru.yank0vy3rdna.services;
+
 import ru.yank0vy3rdna.model.Entry;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +35,7 @@ public class EntryDao {
             connection = dataSource.getConnection();
             connection.createStatement().execute(
                     "create table if not exists results (" +
-                            "x float , y float, r float, result boolean, timestamp timestamp)"
+                            "x float , y float, r float, result boolean, timestamp timestamp, session_id text)"
             );
         } catch (SQLException e) {
             throw new IllegalStateException("Couldn't create connection", e);
@@ -45,17 +46,18 @@ public class EntryDao {
         if (connection == null)
             initConnection();
         PreparedStatement s = connection.prepareStatement(
-                "insert into results (x, y, r, result, timestamp) values (?, ?, ?, ?, ?)"
+                "insert into results (x, y, r, result, timestamp, session_id) values (?, ?, ?, ?, ?, ?)"
         );
         s.setDouble(1, entry.getX());
         s.setDouble(2, entry.getY());
         s.setDouble(3, entry.getR());
         s.setBoolean(4, entry.isResult());
         s.setTimestamp(5, new Timestamp(entry.getTimestamp()));
+        s.setString(6, entry.getSession_id());
         s.execute();
     }
 
-    public List<Entry> getEntries() throws SQLException, NamingException {
+    public List<Entry> getEntries(String session_id) throws SQLException, NamingException {
         if (connection == null)
             initConnection();
         ResultSet rs = connection.createStatement().executeQuery("select * from results order by timestamp desc limit 100");
@@ -67,7 +69,9 @@ public class EntryDao {
             current.setR(rs.getDouble("r"));
             current.setResult(rs.getBoolean("result"));
             current.setTimestamp(rs.getTimestamp("timestamp").getTime());
-            result.add(current);
+            if (rs.getString("session_id").equals(session_id)) {
+                result.add(current);
+            }
         }
         return result;
     }
