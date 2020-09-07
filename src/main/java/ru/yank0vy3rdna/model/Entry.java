@@ -1,8 +1,5 @@
 package ru.yank0vy3rdna.model;
 
-
-import java.time.LocalDateTime;
-
 public class Entry {
     private Double X;
     private Double Y;
@@ -44,16 +41,16 @@ public class Entry {
     public void check() {
         if ((X == null) || (Y == null) || (R == null))
             throw new NullPointerException();
-        if ((X == 0 && Math.abs(Y) <= R) || (Y == 0 && Math.abs(X) <= R))
+        if ((X == 0 && Math.abs(Y) <= R) || (Y == 0 && ((X >= 0 && X <= R) || (X <= 0 && X >= -R / 2))))
             this.result = true;
-        else if ((X > 0) && (Y < 0))
+        else if ((X < 0) && (Y < 0))
             this.result = false;
         else if ((X > 0) && (Y > 0)) {
-            this.result = Y <= R - X;
-        } else if ((X < 0) && (Y > 0)) {
+            this.result = Y <= R - 2 * X;
+        } else if ((X > 0) && (Y < 0)) {
             this.result = X * X + Y * Y <= R * R;
-        } else if ((X < 0) && (Y < 0)) {
-            this.result = (X >= -R / 2) && (Y >= -R);
+        } else if ((X < 0) && (Y > 0)) {
+            this.result = (X >= -R / 2) && (Y <= R);
         }
     }
 
